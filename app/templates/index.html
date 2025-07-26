@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang=ru>
-<head>
-    <title>WildStyle AI</title>
-</head>
-<body>
-    <h1>Загрузите ваше фото</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="photo" accept="image/*">
-        <button type="submit">Отправить</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Создайте свой уникальный яркий образ</h1>
+    <img class="home-img" src="{{ url_for('static', filename='images/obraz_1.png') }}">
+    <img class="home-img" src="{{ url_for('static', filename='images/obraz_2.png') }}">
+    <img class="home-img" src="{{ url_for('static', filename='images/obraz_3.png') }}">
+    <img class="home-img" src="{{ url_for('static', filename='images/obraz_4.png') }}">
+{% endblock %}
