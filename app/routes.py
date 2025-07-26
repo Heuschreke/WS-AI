@@ -12,6 +12,14 @@ bp = Blueprint('routes', __name__)
 def home():
     return render_template('index.html')
 
+@bp.route("/about")
+def about():
+    return render_template('about.html')
+
+@bp.route("/gen")
+def gen():
+    return render_template('gen.html')
+
 @bp.route('/upload', methods=['POST'])
 def upload():
     if 'photo' not in request.files:
@@ -28,7 +36,7 @@ def upload():
 
     filename = f"{uuid.uuid4()}_{secure_filename(file.filename)}"
     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-    return f'Файл {filename} загружен!'
+    return render_template('index.html', uploaded_image=filename)
 
 def register_routes(app):
     app.register_blueprint(bp)
