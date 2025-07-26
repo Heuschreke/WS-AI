@@ -1,0 +1,47 @@
+body {
+    background-color: white;
+}
+
+.page {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/*header*/
+header {
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    z-index: 1000;
+    background-color: #b5c530;
+
+
+}
+
+.head-img {
+    height: 50px;
+}
+
+/*home*/
+.home-img {
+    height: 700px;
+}
+
+/*footer*/
+footer {
+    padding: 20px;
+}
+.footer-img {
+    height: 24px;
+    width: 24px;
+}
+
+/*content*/
+.content {
+    max-width: 100vh;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1 1 auto;
+}
