@@ -36,7 +36,7 @@ def upload():
 
     filename = f"{uuid.uuid4()}_{secure_filename(file.filename)}"
     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-    return render_template('index.html', uploaded_image=filename)
+    return render_template('gen.html', uploaded_image=filename)
 
 def register_routes(app):
     app.register_blueprint(bp)
