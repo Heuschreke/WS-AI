@@ -1,17 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Загрузите ваше фото</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="photo" accept="image/*">
-        <button type="submit">Отправить</button>
-    </form>
+    <div class="card show">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Загрузите ваше фото</h1>
+        </div>
+
+
+        <div class="card-body">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <input class="form-control" type="file" name="photo" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-upload me-2"></i> Отправить
+                </button>
+            </form>
+        </div>
+    </div>
+
     {% if uploaded_image %}
-        <h2>Загруженное изображение</h2>
-        <img
-            src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
-            alt="Uploaded Image"
-            style="height: 300px; width: auto;"
-        >
+        <div class="card mt-4 shadow">
+            <div class="card-header bg-secondary text-white">
+                <h2 class="h5 mb-0">Загруженное изображение</h2>
+            </div>
+
+            <div class="card-body text-center">
+                <img
+                    src="{{ url_for('static', filename='uploads/' + uploaded_image) }}"
+                    alt="Uploaded Image"
+                    style="height: 300px; width: auto;"
+                    class="img-fluid rounded"
+                >
+            </div>
+        </div>
+
     {% endif %}
 {% endblock %}
