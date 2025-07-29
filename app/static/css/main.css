@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    transition: background-color 0.3s ease;
 }
 
 .page {
@@ -15,10 +15,47 @@ header {
     top: 0;
     padding: 20px;
     z-index: 1000;
-    background-color: #b5c530;
-
-
+    background-color: #b5c530 !important;
 }
+
+:root {
+  /* 1. Переопределяем базовые переменные primary */
+  --bs-primary: #008FA5;
+  --bs-primary-rgb: 0, 143, 165;
+  --bs-primary-text-emphasis: #005766;
+  --bs-primary-bg-subtle: #CCEBF0;
+  --bs-primary-border-subtle: #99D7E1;
+}
+
+/* 2. Явно переопределяем кнопки (на случай, если Bootstrap перебивает переменные) */
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #00758A;
+  --bs-btn-hover-border-color: #006B7D;
+  --bs-btn-active-bg: #006B7D;
+  --bs-btn-active-border-color: #005D6E;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-active-bg: #00758A;
+  --bs-btn-active-border-color: #006B7D;
+}
+
+/* 3. Для .bg-primary и других классов */
+.bg-primary {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
 
 .head-img {
     height: 50px;
@@ -44,4 +81,28 @@ footer {
     margin: 0 auto;
     padding: 40px 20px;
     flex: 1 1 auto;
+}
+
+/* Анимация кнопки темы */
+#theme-toggle:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Центрирование иконки в кнопке темы */
+#theme-toggle {
+  display: inline-flex;       /* Используем flex для выравнивания */
+  align-items: center;       /* Вертикальное центрирование */
+  justify-content: center;   /* Горизонтальное центрирование */
+  width: 32px;               /* Фиксированная ширина */
+  height: 32px;              /* Фиксированная высота */
+  padding: 0;                /* Убираем стандартные отступы */
+}
+
+
+
+/* Центрирование иконки внутри кнопки */
+#theme-toggle img {
+  display: block;            /* Убираем лишние отступы у img */
+  margin: 0 auto;            /* Автоматические отступы для подстраховки */
 }
