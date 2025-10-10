@@ -27,10 +27,24 @@
                     <img id="light-icon" src="{{ url_for('static', filename='images/sun.svg') }}" width="18" height="18">
                     <img id="dark-icon" class="d-none" src="{{ url_for('static', filename='images/moon.svg') }}" width="18" height="18">
                 </button>
-                <button type="button" class="btn btn-outline-primary me-2">Вход</button>
+                <a href="{{ url_for('routes.login') }}">
+                    <button type="button" class="btn btn-outline-primary me-2">Вход</button>
+                </a>
+
                 <button type="button" class="btn btn-primary">Регистрация</button>
             </div>
         </header>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
         <div class="content">
             {% block content %}{% endblock %}
         </div>

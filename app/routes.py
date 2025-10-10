@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, flash
 from werkzeug.utils import secure_filename
+from app.forms import LoginForm
 
 import uuid
 import os
@@ -9,8 +10,19 @@ bp = Blueprint('routes', __name__)
 
 
 @bp.route("/")
+@bp.route("/home")
 def home():
     return render_template('index.html')
+
+@bp.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Добро пожаловать, {}! Запомнить меня={}'.format(
+            form.username.data, form.remember_me.data))
+        return redirect(url_for('routes.home'))
+    # print(get_flashed_messages())
+    return render_template('login.html', form=form)
 
 @bp.route("/about")
 def about():
