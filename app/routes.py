@@ -59,6 +59,32 @@ def logout():
     logout_user()
     return redirect(url_for("routes.home"))
 
+@bp.route("/registration", methods=["GET", "POST"])
+def registration():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        db = current_app.extensions['sqlalchemy']
+        user_exist = db.session.scalar(sa.select(User).where(
+            User.username == form.username.data))
+        if user_exist is not None:
+            form.username.errors.append('Этот логин уже занят')
+            return render_template('registration.html', form=form)
+        
+        email_exist = db.session.scalar(sa.select(User).where(
+            User.email == form.email.data))
+        if email_exist is not None:
+            form.email.errors.append('Эта почта уже используется')
+            return render_template('registration.html', form=form)
+        
+        user = User(username = form.username.data, email = form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        flash("Вы зарегистрированы!")
+        return redirect(url_for('routes.login'))
+    return render_template('registration.html', form=form)
+
 @bp.route("/about")
 def about():
     return render_template("about.html")
