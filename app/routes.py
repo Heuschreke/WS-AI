@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from functools import wraps
 from app.models.models import User
 from werkzeug.utils import secure_filename
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from urllib.parse import urlsplit
 import uuid
 import os
@@ -101,6 +101,27 @@ def user(db, username):
         {'author': user, 'name': 'Test look #2'}
     ]
     return render_template('user.html', user=user, looks=looks)
+
+@bp.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+@with_db
+def edit_profile(db):
+    form = EditProfileForm()
+    if form.cancel.data:
+        flash('Редактирование отменено')
+        return redirect(url_for('routes.user', username=current_user.username))
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        # current_user.password = form.password.data
+        db.session.commit()
+        flash('Изменения сохранены')
+        return redirect(url_for('routes.user', username=current_user.username))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    return render_template('edit_profile.html', title='Редактирование профиля',
+                           form=form)
 
 @bp.route("/about")
 def about():

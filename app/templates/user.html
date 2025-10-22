@@ -2,12 +2,22 @@
 
 {% block content %}
     <h1>Личный кабинет</h1>
-    <h3>User: {{ user.username }}</h3>
     <hr>
-    {% for look in looks %}
-    <p>
-    {{ look.author.username }} says: <b>{{ look.name }}</b>
-    </p>
-    {% endfor %}
-
+    <table>
+        <tr valign="top">
+            <td style="border-right: 1px solid #ccc; padding-right: 20px;">
+                <h3>User: {{ user.username }}</h3>
+                {% if user == current_user %}
+                    <p><a href="{{ url_for('routes.edit_profile') }}">Редактировать профиль</a></p>
+                {% endif %}
+            </td>
+            <td style="padding-left: 20px;">
+                {% for look in looks %}
+                <p>
+                {{ look.author.username }} says: <b>{{ look.name }}</b>
+                </p>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
 {% endblock %}
