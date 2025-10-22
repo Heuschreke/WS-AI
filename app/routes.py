@@ -9,7 +9,7 @@ from flask import (
 )
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
-
+from functools import wraps
 from app.models.models import User
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, RegistrationForm
@@ -19,6 +19,12 @@ import os
 
 bp = Blueprint("routes", __name__)
 
+def with_db(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        db = current_app.extensions['sqlalchemy']
+        return func(db, *args, **kwargs)
+    return wrapper
 
 @bp.route("/")
 @bp.route("/home")
@@ -27,8 +33,8 @@ def home():
 
 
 @bp.route("/login", methods=["GET", "POST"])
-def login():
-    db = current_app.extensions['sqlalchemy']
+@with_db
+def login(db):
     if current_user.is_authenticated:
         return redirect(url_for("routes.home"))
     form = LoginForm()
@@ -60,10 +66,10 @@ def logout():
     return redirect(url_for("routes.home"))
 
 @bp.route("/registration", methods=["GET", "POST"])
-def registration():
+@with_db
+def registration(db):
     form = RegistrationForm()
     if form.validate_on_submit():
-        db = current_app.extensions['sqlalchemy']
         user_exist = db.session.scalar(sa.select(User).where(
             User.username == form.username.data))
         if user_exist is not None:
@@ -84,6 +90,17 @@ def registration():
         flash("Вы зарегистрированы!")
         return redirect(url_for('routes.login'))
     return render_template('registration.html', form=form)
+
+@bp.route('/user/<username>')
+@login_required
+@with_db
+def user(db, username):
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    looks = [
+        {'author': user, 'name': 'Test look #1'},
+        {'author': user, 'name': 'Test look #2'}
+    ]
+    return render_template('user.html', user=user, looks=looks)
 
 @bp.route("/about")
 def about():

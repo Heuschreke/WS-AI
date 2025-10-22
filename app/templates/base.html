@@ -83,6 +83,17 @@
           <a href="{{ url_for('routes.registration') }}">
             <button type="button" class="btn btn-primary">Регистрация</button>
           </a>
+          <a
+              class="mb-3 mb-md-0 text-body-secondary"
+              href="{{ url_for('routes.user', username=current_user.username ) }}"
+              aria-label="Личный кабинет"
+            >
+              <img
+                class="footer-img"
+                src="{{ url_for('static', filename='images/lk.png') }}"
+                alt="Личный кабинет"
+              />
+            </a>
         </div>
       </header>
 

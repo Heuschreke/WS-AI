@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Личный кабинет</h1>
+    <h3>User: {{ user.username }}</h3>
+    <hr>
+    {% for look in looks %}
+    <p>
+    {{ look.author.username }} says: <b>{{ look.name }}</b>
+    </p>
+    {% endfor %}
+
+{% endblock %}

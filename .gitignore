@@ -3,4 +3,4 @@ venv/
 .venv/
 .env
 app/static/uploads/*
-instans/*
+instance/site.db
